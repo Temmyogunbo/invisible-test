@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import axios from "axios";
+import axios from 'axios'; 
 import fp from 'lodash/fp';
 
 const targetDate = new Date();
@@ -32,7 +32,7 @@ export const getLocationWeather = async (location: string): Promise<IWeather> =>
     const response = await axios.get(URL);
     return { coord: response.data.coord, weather: response.data.weather };
   } catch (error) {
-    console.log("error ocurr", error);
+    console.log('An error occur when getting location weather', error);
   }
 };
 
@@ -40,22 +40,26 @@ export const getLocationTime = async (location: {
   lat: number;
   lon: number;
 }): Promise<ILocationTime> => {
-  const googleurl = `https://maps.googleapis.com/maps/api/timezone/json?location=${
-    location.lat
-  },${location.lon}&timestamp=${timestamp}&key=${process.env.GOOGLEAPIKEY}`;
-
-  const time = await axios.get(googleurl);
-  return time.data;
-};
+  try {
+    const googleurl = `https://maps.googleapis.com/maps/api/timezone/json?location=${
+      location.lat
+    },${location.lon}&timestamp=${timestamp}&key=${process.env.GOOGLEAPIKEY}`;
+  
+    const time = await axios.get(googleurl);
+    return time.data;
+  } catch (error) {
+    console.log('An error occur when getting location time', error);
+  }
+}
 
 export const computeOffset = (time: { dstOffset: number; rawOffset: number }): number => {
   const { dstOffset, rawOffset } = time;
-  const offsets = dstOffset * 1000 + rawOffset * 1000; // get DST and time zone offsets in milliseconds
+  const offsets = dstOffset * 1000 + rawOffset * 1000;
   return offsets
 }
 
 export const computeLocalDate = (offsets: number): string => {
-  const localdate = new Date(timestamp * 1000 + offsets); // Date object containing current time (timestamp + dstOffset + rawOffset)
+  const localdate = new Date(timestamp * 1000 + offsets);
   return localdate.toLocaleString();
 }
 
@@ -68,4 +72,4 @@ export const printWeatherAndTime = async ([location, zipCode]: [string, number])
   console.log(`Your ${location} time and weather is ${computedTime}  and ${weather[0].description}`);
 };
 
-printWeatherAndTime(["california", 1020202]);
+printWeatherAndTime(['california', 1020202]);
