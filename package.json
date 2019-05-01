@@ -1,0 +1,37 @@
+{
+  "name": "invisible-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --require ts-node/register test/**/*.ts",
+    "build-ts": "./node_modules/.bin/tsc --project tsconfig.json && yarn build:make-file-executable",
+    "build:make-file-executable": "chmod +x \"./dist/index.js\"",
+    "start": "dist/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Temmyogunbo/invisible-test.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Temmyogunbo/invisible-test/issues"
+  },
+  "homepage": "https://github.com/Temmyogunbo/invisible-test#readme",
+  "devDependencies": {
+    "@types/chai": "^4.1.7",
+    "@types/lodash": "^4.14.123",
+    "@types/mocha": "^5.2.6",
+    "@types/node": "^11.13.8",
+    "chai": "^4.2.0",
+    "mocha": "^6.1.4",
+    "ts-node": "^8.1.0",
+    "typescript": "^3.4.5"
+  },
+  "dependencies": {
+    "axios": "^0.18.0",
+    "lodash": "^4.17.11"
+  }
+}
